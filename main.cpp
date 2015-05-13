@@ -327,7 +327,24 @@ void tuboLateral()
         glScalef(0.08,1,0.4);
         cubo(0.74,0.74,0.74);
     glPopMatrix();
+
 }
+
+void cilindroLateral(){
+        glPushMatrix();
+            glTranslatef(4.5,9.7,0.0);
+            glScalef(0.4,0.4,0.91);
+            cilindro(1.0,0.0,0.0);
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(4.5,9.7,0.0);
+            glScalef(0.1,0.1,0.95);
+            cilindro(0.0,0.0,1.0);
+        glPopMatrix();
+}
+
+
 void mesaFixaJogo()
 {
 
@@ -358,6 +375,31 @@ void mesaFixaJogo()
         glScalef(0.2,5.1,0.5);
         cubo(1.0,0.0,0.0);
     glPopMatrix();
+
+    /*--------Pedy tubo nas laterais--------*/
+    glPushMatrix();
+        cilindroLateral();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(-5.0,0.0,0.0);
+        cilindroLateral();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(-9.0,0.0,0.0);
+        cilindroLateral();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(0.0,-10.5,0.0);
+        cilindroLateral();
+    glPopMatrix();
+
+
+/*----------------------------------------*/
+
+
 }
 void paleta ()
 {
@@ -664,6 +706,63 @@ void itemBate()
 
 /*----------------------------------------------------------------------------------*/
 
+
+
+
+/*-----------------------------Paleta lateral direita----------------------------------*/
+    // Direito
+        glPushMatrix();
+            glTranslatef(4.3,0.0,0.5);
+            glRotatef(-115,0,0,1);
+            glScalef(0.8,0.3,1.0);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(4.3,0.5,0.5);
+            glRotatef(65,0,0,1);
+            glScalef(0.5,0.3,1.0);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+
+        glPushMatrix();
+            glTranslatef(4.2,0.0,0.2);
+            glRotatef(-90,0,1,0);
+            glRotatef(movePaletaDireita,1,0,0);
+            glScalef(0.05,0.05,0.25);
+            glutSolidCone( 4, 4, 7, 7);
+        glPopMatrix();
+
+/*----------------------------------------------------------------------------------*/
+
+/*------------------------PAleta lateral esquerda------------------------------*/
+        glPushMatrix();
+            glTranslatef(-3.6,0.0,0.8);
+            glRotatef(-90,0,0,1);
+            glScalef(0.5,0.3,1.4);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(-3.6,0.7,0.8);
+            glRotatef(-90,0,0,1);
+            glScalef(0.2,0.2,1.4);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+
+        glPushMatrix();
+            glTranslatef(-3.4,0.6,0.5);
+            glRotatef(90,0,1,0);
+            glRotatef(movePaletaEsquerda,1,0,0);
+            glScalef(0.1,0.1,0.25);
+            glutSolidCone( 2, 4, 4, 4);
+        glPopMatrix();
+
+
+
+/*-----------------------------------------------------------------------------*/
 
 /*-----------------------------Pentagonos  inferiores----------------------------------*/
 
