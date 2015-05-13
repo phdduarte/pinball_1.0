@@ -592,6 +592,64 @@ void itemBate()
 /*----------------------------------------------------------------------------------*/
 
 
+/*-----------------------------Paleta lateral direita----------------------------------*/
+    // Direito
+        glPushMatrix();
+            glTranslatef(4.3,0.0,0.5);
+            glRotatef(-115,0,0,1);
+            glScalef(0.8,0.3,1.0);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(4.3,0.5,0.5);
+            glRotatef(65,0,0,1);
+            glScalef(0.5,0.3,1.0);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+
+        glPushMatrix();
+            glTranslatef(4.2,0.0,0.2);
+            glRotatef(-90,0,1,0);
+            glRotatef(movePaletaDireita,1,0,0);
+            glScalef(0.05,0.05,0.25);
+            glutSolidCone( 4, 4, 7, 7);
+        glPopMatrix();
+
+/*----------------------------------------------------------------------------------*/
+
+/*------------------------PAleta lateral esquerda------------------------------*/
+        glPushMatrix();
+            glTranslatef(-3.6,0.0,0.8);
+            glRotatef(-90,0,0,1);
+            glScalef(0.5,0.3,1.4);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(-3.6,0.7,0.8);
+            glRotatef(-90,0,0,1);
+            glScalef(0.2,0.2,1.4);
+            pentagono3D(1,0,0);
+        glPopMatrix();
+
+
+        glPushMatrix();
+            glTranslatef(-3.4,0.6,0.5);
+            glRotatef(90,0,1,0);
+            glRotatef(movePaletaEsquerda,1,0,0);
+            glScalef(0.1,0.1,0.25);
+            glutSolidCone( 2, 4, 4, 4);
+        glPopMatrix();
+
+
+
+/*-----------------------------------------------------------------------------*/
+
+
+
+
 /*-----------------------------Pentagonos  inferiores----------------------------------*/
 
     // Esquerdo
