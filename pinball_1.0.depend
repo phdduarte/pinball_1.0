@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1431458062 source:c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball_1.0\camera.cpp
+1431457515 source:c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball\camera.cpp
 	"Camera.h"
 
-1431458054 c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball_1.0\camera.h
+1431457479 c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball\camera.h
 	<windows.h>
 	<GL/glut.h>
 	<iostream>
@@ -13,9 +13,26 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1431547493 source:c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball_1.0\main.cpp
+1431457131 source:c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball\main.cpp
 	<windows.h>
 	<GL/glut.h>
 	<stdlib.h>
 	"Camera.h"
+
+1431458062 source:c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball_1.0\camera.cpp
+	"Camera.h"
+
+1431458054 c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball_1.0\camera.h
+	<windows.h>
+	<GL/glut.h>
+	<iostream>
+	<math.h>
+
+1431547817 source:c:\users\pedro\google drive\ufop\cadeiras\bcc 327 - computa플o grafica\2015\workspace\pinball_1.0\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	"Camera.h"
+	<iostream>
+	<math.h>
 
