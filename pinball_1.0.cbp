@@ -42,6 +42,8 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Users/Pedro/Google Drive/UFOP/CADEIRAS/BCC 327 - COMPUTAÇÃO GRAFICA/2015/computacação gráfica/glut/lib" />
 		</Linker>
+		<Unit filename="Camera.cpp" />
+		<Unit filename="Camera.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
