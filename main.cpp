@@ -2,7 +2,17 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 #include "Camera.h"
+#include <iostream>
+#include <math.h>
+using namespace std;
+const float PI = 3.14159;
+const float g = -0.98;
+float i = 0;
+float forcaLancamento = 0;
 bool mesaDeitada = false;
+bool mostraGrade = true;
+bool wireframe = false;
+
 
 	GLfloat vertices[][3] = {{-1.0,-1.0,-1.0},{1.0,-1.0,-1.0},
 	{1.0,1.0,-1.0}, {-1.0,1.0,-1.0}, {-1.0,-1.0,1.0},
@@ -22,6 +32,21 @@ Camera cam(0,0.0,15.0,
            0.0,0.0,0.0,
            0.0,0.0,0.0,
            0,0,0.0,0.0);
+float posXBola = 4.05;
+float posYBola = -5.76;
+//float posXBola = 0.05;
+//float posYBola = 1.76;
+
+float rotacaoXBola = 0;
+float rotacaoYBola = 0;
+
+float oldPosX = posXBola;
+float oldPosY = posYBola;
+
+bool moveUP = false;
+bool moveDown = false;
+bool moveLeft = false;
+bool moveRight = false;
 
 GLfloat JanelaBranca = 0.0;
 GLfloat JanelaVerde = 0.0;
@@ -185,8 +210,6 @@ void loadDefaultMaterial() {
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
 }
-
-
 void polygon(int a, int b, int c , int d, float vermelho, float verde, float azul)
 {
 	glBegin(GL_POLYGON);
@@ -197,7 +220,6 @@ void polygon(int a, int b, int c , int d, float vermelho, float verde, float azu
 		glVertex3fv(vertices[d]);
 	glEnd();
 }
-
 void cubo(float vermelho, float verde, float azul)
 {
     glEnable(GL_COLOR_MATERIAL);
@@ -250,7 +272,17 @@ void cilindro(float vermelho, float verde, float azul)
     glDisable(GL_COLOR_MATERIAL);
 	loadDefaultMaterial();
 }
-
+void circulo(float raio,float vermelho, float verde, float azul){
+    glNormal3f(0,0,1);
+    glEnable(GL_COLOR_MATERIAL);
+    glBegin(GL_POLYGON);
+        glColor3f(vermelho, verde, azul);
+        for(int i = 0; i < 100; i++) {
+            float ang = i*2*PI/100;
+            glVertex2f(cos(ang) * raio, sin(ang) * raio);
+        }
+    glEnd();
+}
 void tuboLateral()
 {
     //Parede esquerda
@@ -296,23 +328,6 @@ void tuboLateral()
         cubo(0.74,0.74,0.74);
     glPopMatrix();
 }
-
-void cilindroLateral(){
-        glPushMatrix();
-            glTranslatef(4.5,9.7,0.0);
-            glScalef(0.4,0.4,0.91);
-            cilindro(1.0,0.0,0.0);
-        glPopMatrix();
-
-        glPushMatrix();
-            glTranslatef(4.5,9.7,0.0);
-            glScalef(0.1,0.1,0.95);
-            cilindro(0.0,0.0,1.0);
-        glPopMatrix();
-}
-
-
-
 void mesaFixaJogo()
 {
 
@@ -343,35 +358,7 @@ void mesaFixaJogo()
         glScalef(0.2,5.1,0.5);
         cubo(1.0,0.0,0.0);
     glPopMatrix();
-
-
-    /*--------Pedy tubo nas laterais--------*/
-    glPushMatrix();
-        cilindroLateral();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(-5.0,0.0,0.0);
-        cilindroLateral();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(-9.0,0.0,0.0);
-        cilindroLateral();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(0.0,-10.5,0.0);
-        cilindroLateral();
-    glPopMatrix();
-
-
-/*----------------------------------------*/
-
-
 }
-
-
 void paleta ()
 {
         //Suporte paleta Direita
@@ -457,17 +444,10 @@ void mesaInferior()
     glPushMatrix();
         tuboLateral();
     glPopMatrix();
-
-
-
-
 }
-void itensDeMesaPisca()
+void quadradosPiscantes()
 {
-    //a contagem é feita de baixo para cima
-    // da esquerda para a direita
-    // 1
-    glPushMatrix();
+       glPushMatrix();
         glTranslatef(-0.2,-8,0.1);
         glScalef(0.35,0.35,0.01);
         cubo(1,0,1);
@@ -508,7 +488,44 @@ void itensDeMesaPisca()
         cubo(1,0.5,0.6);
     glPopMatrix();
 
-    // Setas da barra lateral
+
+    //3 - 1  = 7
+    glPushMatrix();
+        glTranslatef(-2.4,-2.1,0.1);
+        glScalef(0.35,0.35,0.01);
+        cubo(0.4,1,0.3);
+    glPopMatrix();
+
+    //3 - 2  = 8
+    glPushMatrix();
+        glTranslatef(0,-1.1,0.1);
+        glScalef(0.35,0.35,0.01);
+        cubo(0.4,1,0.3);
+    glPopMatrix();
+
+    //3 -3  = 9
+    glPushMatrix();
+        glTranslatef(2.4,-2.1,0.1);
+        glScalef(0.35,0.35,0.01);
+        cubo(0.4,1,0.3);
+    glPopMatrix();
+    //4 - 1  = 10
+    glPushMatrix();
+        glTranslatef(0,4.1,0.1);
+        glScalef(0.35,0.35,0.01);
+        cubo(0.4,1,0.3);
+    glPopMatrix();
+    //5 - 1  = 11
+    glPushMatrix();
+        glTranslatef(2.7,7.6,0.1);
+        glScalef(0.35,0.35,0.01);
+        cubo(0.4,1,0.3);
+    glPopMatrix();
+
+}
+void setasPiscantes()
+{
+        // Setas da barra lateral
     // 1
     glPushMatrix();
         glTranslatef(-3.75,0,0.11);
@@ -548,6 +565,63 @@ void itensDeMesaPisca()
     glPopMatrix();
 
 }
+void circulosPiscantes()
+{
+    // 1 -1
+    glPushMatrix();
+        glTranslatef(-2.6,-0.85,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+
+    // 2 -1
+    glPushMatrix();
+        glTranslatef(4.0,0.5,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+        // 3 -1
+    glPushMatrix();
+        glTranslatef(-2.9,2.85,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+        // 4 -1
+    glPushMatrix();
+        glTranslatef(-2.9,3.85,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+        // 5 -1
+    glPushMatrix();
+        glTranslatef(4.0,4.5,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+        // 6 -1
+    glPushMatrix();
+        glTranslatef(-2.3,5.4,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+        // 7 -1
+    glPushMatrix();
+        glTranslatef(1.7,8.5,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+        // 7 -2
+    glPushMatrix();
+        glTranslatef(3.7,8.5,0.11);
+        circulo(0.4,1,0,0);
+    glPopMatrix();
+
+
+}
+void itensDeMesaPisca()
+{
+    //a contagem é feita de baixo para cima
+    // da esquerda para a direita
+    // 1
+    quadradosPiscantes();
+
+    setasPiscantes();
+
+    circulosPiscantes();
+}
 void barraDisparo()
 {
     glPushMatrix();
@@ -557,13 +631,12 @@ void barraDisparo()
         cubo(0,0,0);
     glPopMatrix();
 }
-
 void itemBate()
 {
 
     glPushMatrix();
        glScalef(0.6,0.6,0.6);
-       glTranslatef(6.4,5.8,0.0);
+       glTranslatef(5.6,5.0,0.0);
        cilindro(0.0,1.0,0.0);
     glPopMatrix();
 
@@ -592,64 +665,6 @@ void itemBate()
 /*----------------------------------------------------------------------------------*/
 
 
-/*-----------------------------Paleta lateral direita----------------------------------*/
-    // Direito
-        glPushMatrix();
-            glTranslatef(4.3,0.0,0.5);
-            glRotatef(-115,0,0,1);
-            glScalef(0.8,0.3,1.0);
-            pentagono3D(1,0,0);
-        glPopMatrix();
-
-        glPushMatrix();
-            glTranslatef(4.3,0.5,0.5);
-            glRotatef(65,0,0,1);
-            glScalef(0.5,0.3,1.0);
-            pentagono3D(1,0,0);
-        glPopMatrix();
-
-
-        glPushMatrix();
-            glTranslatef(4.2,0.0,0.2);
-            glRotatef(-90,0,1,0);
-            glRotatef(movePaletaDireita,1,0,0);
-            glScalef(0.05,0.05,0.25);
-            glutSolidCone( 4, 4, 7, 7);
-        glPopMatrix();
-
-/*----------------------------------------------------------------------------------*/
-
-/*------------------------PAleta lateral esquerda------------------------------*/
-        glPushMatrix();
-            glTranslatef(-3.6,0.0,0.8);
-            glRotatef(-90,0,0,1);
-            glScalef(0.5,0.3,1.4);
-            pentagono3D(1,0,0);
-        glPopMatrix();
-
-        glPushMatrix();
-            glTranslatef(-3.6,0.7,0.8);
-            glRotatef(-90,0,0,1);
-            glScalef(0.2,0.2,1.4);
-            pentagono3D(1,0,0);
-        glPopMatrix();
-
-
-        glPushMatrix();
-            glTranslatef(-3.4,0.6,0.5);
-            glRotatef(90,0,1,0);
-            glRotatef(movePaletaEsquerda,1,0,0);
-            glScalef(0.1,0.1,0.25);
-            glutSolidCone( 2, 4, 4, 4);
-        glPopMatrix();
-
-
-
-/*-----------------------------------------------------------------------------*/
-
-
-
-
 /*-----------------------------Pentagonos  inferiores----------------------------------*/
 
     // Esquerdo
@@ -667,7 +682,19 @@ void itemBate()
             pentagono3D(0,0,1);
         glPopMatrix();
 }
-
+void bolinha()
+{
+    glPushMatrix();
+        glTranslatef(posXBola,posYBola,.35);
+        glRotatef(rotacaoXBola,1,0,0);
+        glRotatef(rotacaoYBola,0,1,0);
+        glScalef(0.25,0.25,0.25);
+        if(wireframe)
+            glutWireSphere(1,15,15);
+        else
+            glutSolidSphere(1,15,15);
+    glPopMatrix();
+}
 void mesaPinBall()
 {
 
@@ -676,7 +703,7 @@ void mesaPinBall()
     barraDisparo();
     itensDeMesaPisca();
     itemBate();
-
+    bolinha();
 
 }
 void distanciaMesa()
@@ -715,11 +742,12 @@ void exibe()
         eixosCoord();
     glPopMatrix();
 
-    glPushMatrix();
-//        glTranslatef(0,0,3);
-//        pentagono3D(0,0,0);
-        distanciaMesa();
-    glPopMatrix();
+    if(mostraGrade)
+    {
+        glPushMatrix();
+            distanciaMesa();
+        glPopMatrix();
+    }
 
     glPushMatrix();
         if(mesaDeitada)
@@ -744,6 +772,9 @@ void controle (unsigned char tecla, int x, int y) {
     switch (tecla) {
         case 27: exit(EXIT_SUCCESS);  // tecla ESC para sair
 //        case 'x': angGiro -= 1.0; break;
+        case 't': i = 0.0; break;
+        case 'f': wireframe = not wireframe; break;
+        case 'g': mostraGrade = not mostraGrade; break;
         case 'z': actionPaletaEsquerda = true; break;
         case 'x': actionPaletaDireita = true; break;
         case 'v': actionGatilho = true; break;
@@ -761,13 +792,98 @@ void controleUP (unsigned char tecla, int x, int y) {
     case 'v': actionGatilho = false; break;
     }
 }
+void movimentosBolinha()
+{
+    i += 0.0001;
+    if(forcaLancamento > 0.00000 and (not actionGatilho) )
+        posYBola = oldPosY + forcaLancamento*i + (g*pow(i,2))/2;
+
+    if( posYBola > 9.5)
+    {
+        posYBola = 9.5;
+    }
+    if (posXBola > 4.26)
+        posXBola = 4.26;
+    if( posXBola < - 4.26)
+        posXBola = - 4.26;
+    if(posXBola < oldPosX)
+    {
+        moveRight = true;
+        moveLeft = false;
+    }
+    else if(posXBola > oldPosX)
+        {
+            moveLeft = true;
+            moveRight = false;
+        }
+        else
+        {
+            moveLeft = false;
+            moveRight = false;
+    }
+
+    if(posYBola < oldPosY)
+    {
+        moveDown = true;
+        moveUP = false;
+    }
+    else if(posYBola > oldPosY)
+        {
+            moveUP = true;
+            moveDown = false;
+        }
+        else
+        {
+            moveUP = false;
+            moveDown = false;
+        }
+
+    if(moveUP)
+    {
+        rotacaoXBola += 5;
+        if(rotacaoXBola > 360)
+            rotacaoXBola = 0;
+    }
+    if(moveDown)
+    {
+        rotacaoXBola -= 5;
+        if(rotacaoXBola < -360)
+            rotacaoXBola = 0;
+    }
+    if(moveLeft)
+        rotacaoYBola += 0.1;
+    if(moveRight)
+        rotacaoYBola -= 0.1;
+    oldPosX = posXBola;
+    oldPosY = posYBola;
+}
 void gira() {
+    movimentosBolinha();
     teta += 3;
       glutPostRedisplay();   //exibe();
     if(actionGatilho)
+    {
         gatilho -= 0.005;
+        if(posXBola > 4.050 and posXBola <4.051 and gatilho >= -2)
+        {
+            cout << "HAAA\n";
+            forcaLancamento +=0.005;
+            if(forcaLancamento >  0.13)
+                forcaLancamento =  0.13;
+            cout << forcaLancamento;
+            posYBola -= 0.01;
+        }
+
+            cout << "neh\n";
+    }
     else
-        gatilho += 0.01;
+    {
+        gatilho += 0.03;
+        if(posXBola > 4.050 and posXBola <4.051  and gatilho <=0)
+        {
+            posYBola += 0.065;
+        }
+    }
 
     if (gatilho >= 0.0)
         gatilho = 0;
