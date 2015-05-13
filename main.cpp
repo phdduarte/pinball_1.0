@@ -296,6 +296,23 @@ void tuboLateral()
         cubo(0.74,0.74,0.74);
     glPopMatrix();
 }
+
+void cilindroLateral(){
+        glPushMatrix();
+            glTranslatef(4.5,9.7,0.0);
+            glScalef(0.4,0.4,0.91);
+            cilindro(1.0,0.0,0.0);
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(4.5,9.7,0.0);
+            glScalef(0.1,0.1,0.95);
+            cilindro(0.0,0.0,1.0);
+        glPopMatrix();
+}
+
+
+
 void mesaFixaJogo()
 {
 
@@ -326,7 +343,29 @@ void mesaFixaJogo()
         glScalef(0.2,5.1,0.5);
         cubo(1.0,0.0,0.0);
     glPopMatrix();
+
+
+    /*--------Pedy tubo nas laterais--------*/
+    glPushMatrix();
+        cilindroLateral();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(-5.0,0.0,0.0);
+        cilindroLateral();
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(-9.0,0.0,0.0);
+        cilindroLateral();
+    glPopMatrix();
+
+
+/*----------------------------------------*/
+
+
 }
+
 
 void paleta ()
 {
@@ -413,6 +452,10 @@ void mesaInferior()
     glPushMatrix();
         tuboLateral();
     glPopMatrix();
+
+
+
+
 }
 void itensDeMesaPisca()
 {
